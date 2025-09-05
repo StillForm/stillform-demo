@@ -138,8 +138,8 @@ const personas = [
 
 // 仅保留 2 个展示商品：文玩系列 & 艺术版画；并提供本地图片路径
 const demoProducts: Product[] = [
-  { id: 2, title: "Ink·文玩系列 #021",    sold: 40, total: 60, status: "已锁定",   token: "0x44..8b10", owner: true,  imgSrc: "/public/ink-021.jpg" },
-  { id: 3, title: "Canvas·艺术版画 #013", sold: 15, total: 30, status: "未实体化", token: "0x11..9f05", owner: false, imgSrc: "/public/canvas-013.jpg" },
+  { id: 2, title: "Ink·文玩系列 #021",    sold: 40, total: 60, status: "已锁定",   token: "0x44..8b10", owner: true,  imgSrc: "/assets/ink-021.jpg" },
+  { id: 3, title: "Canvas·艺术版画 #013", sold: 15, total: 30, status: "未实体化", token: "0x11..9f05", owner: false, imgSrc: "/assets/canvas-013.jpg" },
 ];
 
 // ------------------------------------------------------------
@@ -340,7 +340,7 @@ function Personas() {
 function Market() {
   return (
     <Container id="market" className="py-16 md:py-24 scroll-mt-20">
-      <SectionTitle overline="Explore" title="产品展示" subtitle="仅展示文玩系列与艺术版画各一款 · 图片来自本地 /public/images/" />
+      <SectionTitle overline="Explore" title="产品展示" />
       <div className="grid md:grid-cols-2 gap-5">
         {demoProducts.map((p) => {
           const pct = Math.round((p.sold / p.total) * 100);
