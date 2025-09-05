@@ -79,9 +79,20 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
   );
 }
 
-function Container({ children, className = "" }: React.PropsWithChildren<{ className?: string }>) {
-  return <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>;
+function Container(
+    { children, className = "", ...rest }:
+    React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement> & { className?: string }>
+) {
+    return (
+        <div
+            {...rest}
+            className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}
+        >
+            {children}
+        </div>
+    );
 }
+
 
 function SectionTitle({ overline, title, subtitle }: { overline?: string; title: string; subtitle?: string }) {
   return (
@@ -148,16 +159,21 @@ function Card({ children, className = "" }: React.PropsWithChildren<{ className?
   return <div className={`rounded-2xl border border-zinc-200 bg-white shadow-sm ${className}`}>{children}</div>;
 }
 
-function Pill({ children, intent = "default" as "default" | "success" | "warning" | "info" | "danger" }) {
-  const map: Record<string, string> = {
-    default: "bg-zinc-100 text-zinc-700",
-    success: "bg-emerald-100 text-emerald-700",
-    warning: "bg-amber-100 text-amber-700",
-    info: "bg-blue-100 text-blue-700",
-    danger: "bg-red-100 text-red-700",
-  };
-  return <span className={`text-xs px-2.5 py-1 rounded-full ${map[intent]}`}>{children}</span>;
+type PillIntent = "default" | "success" | "warning" | "info" | "danger";
+
+function Pill(
+    { children, intent = "default" }: React.PropsWithChildren<{ intent?: PillIntent }>
+) {
+    const map: Record<PillIntent, string> = {
+        default: "bg-zinc-100 text-zinc-700",
+        success: "bg-emerald-100 text-emerald-700",
+        warning: "bg-amber-100 text-amber-700",
+        info: "bg-blue-100 text-blue-700",
+        danger: "bg-red-100 text-red-700",
+    };
+    return <span className={`text-xs px-2.5 py-1 rounded-full ${map[intent]}`}>{children}</span>;
 }
+
 
 // ------------------------------------------------------------
 // 顶部导航（使用平滑滚动） & 首屏（无开盲盒按钮）
