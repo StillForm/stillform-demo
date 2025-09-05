@@ -79,19 +79,17 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
   );
 }
 
-function Container(
-    { children, className = "", ...rest }:
-    React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement> & { className?: string }>
-) {
+function Container({ children, className = "", ...rest }: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>) {
     return (
         <div
             {...rest}
-            className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}
+            className={`w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 box-border ${className}`}
         >
             {children}
         </div>
     );
 }
+
 
 
 function SectionTitle({ overline, title, subtitle }: { overline?: string; title: string; subtitle?: string }) {
@@ -213,42 +211,56 @@ function Navbar() {
 }
 
 function Hero() {
-  return (
-    <div className="relative overflow-hidden">
-      {/* 背景渐变 */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] bg-gradient-to-tr from-zinc-200 via-white to-white rounded-full blur-3xl" />
-      </div>
+    return (
+        <div className="relative overflow-hidden">
+            {/* 背景渐变（使用视口宽度 + 外层裁切，杜绝水平溢出） */}
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+                <div
+                    aria-hidden
+                    className="
+            absolute -top-24 left-1/2 -translate-x-1/2
+            w-[110vw] max-w-none aspect-square
+            bg-gradient-to-tr from-zinc-200 via-white to-white
+            rounded-full blur-3xl pointer-events-none
+          "
+                />
+            </div>
 
-      <Container className="py-16 md:py-24">
-        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 bg-white text-xs mb-4">
-            <ShieldCheck className="w-4 h-4" /> 一物一链 · 透明确权 · 实体化即锁定
-          </div>
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1]">
-            把现实艺术带到链上，
-            <br className="hidden md:block" /> 让收藏更安全、更稀缺
-          </h1>
-          <p className="text-zinc-500 mt-5 max-w-2xl mx-auto">
-            只有已购买持有者可发起实体化；实体化后链上资产锁定，商家端不可再销售，且不可再次提取。
-          </p>
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <a
-              href="#how"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId("how");
-              }}
-              className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-3 text-sm font-medium hover:bg-zinc-800"
-            >
-              了解运作机制 <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </motion.div>
-      </Container>
-    </div>
-  );
+            <Container className="py-16 md:py-24">
+                <motion.div
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center"
+                >
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 bg-white text-xs mb-4">
+                        <ShieldCheck className="w-4 h-4" /> 一物一链 · 透明确权 · 实体化即锁定
+                    </div>
+                    <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1]">
+                        把现实艺术带到链上，
+                        <br className="hidden md:block" /> 让收藏更安全、更稀缺
+                    </h1>
+                    <p className="text-zinc-500 mt-5 max-w-2xl mx-auto">
+                        只有已购买持有者可发起实体化；实体化后链上资产锁定，商家端不可再销售，且不可再次提取。
+                    </p>
+                    <div className="mt-8 flex items-center justify-center gap-3">
+                        <a
+                            href="#how"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToId("how");
+                            }}
+                            className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 text-white px-5 py-3 text-sm font-medium hover:bg-zinc-800"
+                        >
+                            了解运作机制 <ArrowRight className="w-4 h-4" />
+                        </a>
+                    </div>
+                </motion.div>
+            </Container>
+        </div>
+    );
 }
+
 
 // ------------------------------------------------------------
 // 核心内容分区
@@ -451,7 +463,7 @@ export default function RWAHomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-zinc-900">
+    <div className="min-h-screen bg-white text-zinc-900 overflow-x-hidden">
       <Navbar />
       <Hero />
       <PainVsSolution />
